@@ -1,0 +1,8 @@
+# Coupon context wiring.
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Port → adapter. Swap for a DoctrineCouponRepository once Doctrine is installed.
+    App\Coupon\Domain\Coupon\CouponRepository: '@App\Coupon\Infrastructure\Memory\InMemoryCouponRepository'

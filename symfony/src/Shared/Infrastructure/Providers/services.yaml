@@ -1,0 +1,20 @@
+# Shared kernel wiring: the messaging ports and cross-cutting adapters.
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Both ports resolve to the single, shared MemoryPubSub instance (services are
+    # shared by default), so a subscription registered through Subscriber is visible
+    # to anything publishing through Publisher. Public so tests can fetch them.
+    App\Shared\Domain\Event\Publisher:
+        alias: App\Shared\Infrastructure\MemoryPubSub
+        public: true
+
+    App\Shared\Domain\Event\Subscriber:
+        alias: App\Shared\Infrastructure\MemoryPubSub
+        public: true
+
+    # No Monolog in this scaffold — satisfy PSR-3 autowiring with a NullLogger.
+    Psr\Log\NullLogger: ~
+    Psr\Log\LoggerInterface: '@Psr\Log\NullLogger'

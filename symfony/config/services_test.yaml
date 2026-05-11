@@ -1,0 +1,14 @@
+# Test-only wiring (auto-loaded after services.yaml in the `test` environment).
+# Swap the Resend-backed EmailSender for a spy so the event-listening feature test
+# exercises the real bus + subscription without ever hitting the Resend API.
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\Tests\Support\FakeEmailSender:
+        public: true
+
+    App\Shared\Domain\Email\EmailSender:
+        alias: App\Tests\Support\FakeEmailSender
+        public: true

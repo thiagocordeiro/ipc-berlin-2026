@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=../../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+
+# PSR-4 auto-registration for every class under src/. Loaded first; the per-module
+# files imported after this one add explicit bindings, aliases, and tags on top.
+services:
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+
+    App\:
+        resource: '../../src/'
+        exclude:
+            - '../../src/Kernel.php'
+            # Doctrine entities are managed by the ORM, not the service container.
+            - '../../src/*/Infrastructure/Doctrine/Models/'

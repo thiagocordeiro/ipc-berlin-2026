@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../vendor/symfony/dependency-injection/Loader/schema/services.schema.json
+
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+#
+# Each bounded context owns its container wiring in its own
+# `src/<Context>/Infrastructure/Providers/services.yaml`, the Symfony counterpart
+# to Laravel's per-module ServiceProviders. They are imported *after* the PSR-4
+# auto-registration so their explicit bindings, aliases, and tags take precedence.
+imports:
+    - { resource: 'services/app.yaml' }
+    - { resource: '../src/Shared/Infrastructure/Providers/services.yaml' }
+    - { resource: '../src/Coupon/Infrastructure/Providers/services.yaml' }
+    - { resource: '../src/Campaign/Infrastructure/Providers/services.yaml' }

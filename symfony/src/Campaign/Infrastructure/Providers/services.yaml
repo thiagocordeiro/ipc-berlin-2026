@@ -1,0 +1,23 @@
+# Campaign context wiring.
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Resend client, built from the API key (env) — the Symfony counterpart to
+    # Laravel's CampaignServiceProvider::register(). Construction is network-free.
+    Resend\Client:
+        factory: ['Resend', 'client']
+        arguments:
+            $apiKey: '%env(RESEND_API_KEY)%'
+
+    Resend\Contracts\Client: '@Resend\Client'
+
+    # Port → adapter: the Campaign context provides the EmailSender via Resend.
+    App\Shared\Domain\Email\EmailSender: '@App\Shared\Infrastructure\Email\ResendEmailSender'
+
+    # Declares the subscription; RegisterEventSubscribersPass wires it onto the bus.
+    # The only thing shared with the Coupon context is the topic string 'coupon.created'.
+    App\Campaign\Presenter\Event\ShareCouponWithCustomersEventListener:
+        tags:
+            - { name: 'app.event_subscriber', event: 'coupon.created' }
