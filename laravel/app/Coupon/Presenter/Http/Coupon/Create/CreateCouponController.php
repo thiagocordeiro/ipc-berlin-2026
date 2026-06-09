@@ -2,17 +2,21 @@
 
 namespace App\Coupon\Presenter\Http\Coupon\Create;
 
+use App\Coupon\Application\Coupon\Create\CreateCouponCommand;
+use App\Coupon\Application\Coupon\Create\CreateCouponUseCase;
 use App\Coupon\Domain\Coupon\Coupon;
-use Exception;
+use Tcds\Io\Jackson\Laravel\Attributes\JacksonInject;
+use Tcds\Io\Jackson\Laravel\Attributes\JacksonResponse;
 
 readonly class CreateCouponController
 {
-    public function __construct()
+    public function __construct(private CreateCouponUseCase $useCase)
     {
     }
 
-    public function __invoke(): Coupon
+    #[JacksonResponse(201)]
+    public function __invoke(#[JacksonInject] CreateCouponCommand $command): Coupon
     {
-        throw new Exception('Not implemented');
+        return $this->useCase->handle($command);
     }
 }

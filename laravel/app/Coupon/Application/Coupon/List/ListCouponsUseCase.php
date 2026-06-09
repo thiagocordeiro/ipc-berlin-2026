@@ -16,8 +16,6 @@ readonly class ListCouponsUseCase
      */
     public function handle(): array
     {
-        $coupons = $this->couponRepository->list();
-
-        return [];
+        return $this->couponRepository->list();
     }
 }

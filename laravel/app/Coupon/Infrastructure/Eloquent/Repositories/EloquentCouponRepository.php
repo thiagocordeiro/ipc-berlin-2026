@@ -26,9 +26,19 @@ readonly class EloquentCouponRepository implements CouponRepository
         return $this->modelToEntity($model);
     }
 
+    public function getByCode(string $code): Coupon
+    {
+        $model = CouponModel::query()->where('code', $code)->first() ?? throw new Exception('Coupon not found');
+
+        return $this->modelToEntity($model);
+    }
+
     public function list(): array
     {
-        return [];
+        return CouponModel::query()
+            ->get()
+            ->map($this->modelToEntity(...))
+            ->all();
     }
 
     private function modelToEntity(CouponModel $model): Coupon

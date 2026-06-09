@@ -5,16 +5,16 @@ namespace Tests\Feature\Http\Coupon;
 use App\Coupon\Domain\Coupon\Coupon;
 use App\Coupon\Domain\Coupon\CouponRepository;
 use App\Coupon\Infrastructure\Memory\InMemoryCouponRepository;
-use App\Coupon\Presenter\Http\Coupon\List\ListCouponsController;
+use App\Coupon\Presenter\Http\Coupon\Get\GetCouponController;
 use Carbon\CarbonImmutable;
 use Illuminate\Foundation\Testing\TestCase;
 use Override;
 use PHPUnit\Framework\Attributes\Test;
 
 /**
- * @see ListCouponsController
+ * @see GetCouponController
  */
-class ListCouponsEndpointTest extends TestCase
+class GetCouponEndpointTest extends TestCase
 {
     #[Override]
     protected function setUp(): void
@@ -41,25 +41,16 @@ class ListCouponsEndpointTest extends TestCase
     }
 
     #[Test]
-    public function create_coupon(): void
+    public function get_coupon_by_code(): void
     {
-        CarbonImmutable::setTestNow('2026-05-23T07:20:12+00:00');
-
-        $response = $this->get('/api/coupons');
+        $response = $this->get('/api/coupons/IPC-BERLIN-2026');
 
         $response->assertOk();
         $this->assertEquals(
             [
-                [
-                    'id' => 1,
-                    'code' => 'IPC-BERLIN-2026',
-                    'createdAt' => '2026-05-23T07:20:12+00:00',
-                ],
-                [
-                    'id' => 2,
-                    'code' => 'IPC-THIAGO-CORDEIRO',
-                    'createdAt' => '2026-05-23T07:20:12+00:00',
-                ],
+                'id' => 1,
+                'code' => 'IPC-BERLIN-2026',
+                'createdAt' => '2026-05-23T07:20:12+00:00',
             ],
             $response->json(),
         );

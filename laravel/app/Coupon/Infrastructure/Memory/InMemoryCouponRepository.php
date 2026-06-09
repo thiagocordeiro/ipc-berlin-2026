@@ -26,6 +26,17 @@ class InMemoryCouponRepository implements CouponRepository
         return $this->coupons[$id] ?? throw new Exception('Coupon not found');
     }
 
+    public function getByCode(string $code): Coupon
+    {
+        foreach ($this->coupons as $coupon) {
+            if ($coupon->code === $code) {
+                return $coupon;
+            }
+        }
+
+        throw new Exception('Coupon not found');
+    }
+
     public function list(): array
     {
         return $this->coupons;

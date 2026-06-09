@@ -8,6 +8,8 @@ interface CouponRepository
 
     public function getById(int $id): Coupon;
 
+    public function getByCode(string $code): Coupon;
+
     /**
      * @return list<Coupon>
      */
